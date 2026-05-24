@@ -1,36 +1,26 @@
-from flask import Flask, render_template, request
+import streamlit as st
 import pandas as pd
 import joblib
 
-# ==========================================
-# CREATE FLASK APP
-# ==========================================
-
-app = Flask(__name__)
-
-# LOAD MODEL
+# Load trained model
 model = joblib.load("sales_model.pkl")
 
-# ==========================================
-# HOME PAGE
-# ==========================================
+# Page title
+st.title("📈 Store Sales Prediction")
 
-@app.route('/')
-def home():
-    return render_template("index.html")
+st.write("Enter store details below:")
 
-# ==========================================
-# PREDICTION ROUTE
-# ==========================================
+# User inputs
+advertising_cost = st.number_input("Advertising Cost", min_value=0.0)
 
-@app.route('/predict', methods=['POST'])
-def predict():
+store_size = st.number_input("Store Size", min_value=0.0)
 
-    advertising_cost = float(request.form['advertising_cost'])
-    store_size = float(request.form['store_size'])
-    customers = float(request.form['customers'])
+customers = st.number_input("Number of Customers", min_value=0.0)
 
-    # CREATE DATAFRAME
+# Prediction button
+if st.button("Predict Sales"):
+
+    # Create dataframe
     data = pd.DataFrame(
         [[advertising_cost, store_size, customers]],
         columns=[
@@ -40,17 +30,9 @@ def predict():
         ]
     )
 
-    # PREDICT SALES
+    # Prediction
     prediction = model.predict(data)[0]
 
-    return render_template(
-        "index.html",
-        prediction_text=f"Predicted Sales: {round(prediction, 2)}"
-    )
+    # Display result
+    st.success(f"Predicted Sales: {round(prediction, 2)}")
 
-# ==========================================
-# RUN APP
-# ==========================================
-
-if __name__ == "__main__":
-    app.run(debug=True)
