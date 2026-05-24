@@ -1,0 +1,9 @@
+http://127.0.0.1:5000/predict
+
+pip install pandas flask
+pip install pandas flask numpy scikit-learn joblib
+pip install -r requirements.txt
+python -m pip install pandas flask numpy scikit-learn joblib
+
+python model.py
+python app.py

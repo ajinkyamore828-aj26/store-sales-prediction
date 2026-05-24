@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Store Sales Prediction</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Store Sales Prediction</h1>
+
+    <form action="/predict" method="POST">
+
+        <input type="number"
+               name="advertising_cost"
+               placeholder="Advertising Cost"
+               required>
+
+        <input type="number"
+               name="store_size"
+               placeholder="Store Size"
+               required>
+
+        <input type="number"
+               name="customers"
+               placeholder="Customers"
+               required>
+
+        <button type="submit">
+            Predict Sales
+        </button>
+
+    </form>
+
+    <h2>
+        {{ prediction_text }}
+    </h2>
+
+</div>
+
+</body>
+</html>
